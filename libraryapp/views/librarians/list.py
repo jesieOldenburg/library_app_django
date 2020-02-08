@@ -7,7 +7,7 @@ from ..connection import Connection
 def list_librarians(request):
     with sqlite3.connect(Connection.db_path) as conn:
         conn.row_factory = sqlite3.Row
-        db_cursor = conn.cursor()
+        db_cursor = conn.cursor() 
 
         db_cursor.execute("""
         select

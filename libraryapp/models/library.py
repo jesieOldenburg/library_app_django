@@ -3,7 +3,6 @@ from django.db import models
 class Library(models.Model):
     """Model definition for Library."""
 
-    # TODO: Define fields here
     title = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
 
