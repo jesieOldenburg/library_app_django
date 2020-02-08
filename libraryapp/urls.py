@@ -4,8 +4,9 @@ from .views import *
 app_name = "libraryapp"
 
 urlpatterns = [
-    path('', book_list, name='home'),
+    path('', home, name='home'),
     path('books/', book_list, name='books'),
-    path('librarians/', librarian_list, name='librarians'),
+    path('librarians/', list_librarians, name='librarians'),
+    path('libraries/', list_libraries, name='libraries'),
 
 ]

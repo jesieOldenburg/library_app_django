@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -5,14 +6,13 @@
     <title>Library</title>
   </head>
   <body>
-    <h1>Books</h1>
+    <h1>Libraries</h1>
 
     <ol>
-    {% for book in all_books %}
+    {% for library in all_libraries %}
         <li>
-            {{ book.title }}
-            by {{book.author}}
-            published in {{book.year_published}}
+            {{ library.title }}
+            located at {{library.address}}
         </li>
     {% endfor %}
     </ol>
