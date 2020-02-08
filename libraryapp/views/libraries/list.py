@@ -12,8 +12,7 @@ def list_libraries(request):
         select
             l.id,
             l.title,
-            l.address,
-            
+            l.address
         from libraryapp_library l
         """)
 
