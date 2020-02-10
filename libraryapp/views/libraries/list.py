@@ -1,38 +1,64 @@
 import sqlite3
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from libraryapp.models import Library
+from libraryapp.models import model_factory
 from ..connection import Connection
 from django.contrib.auth.decorators import login_required
 
 @login_required
 def list_libraries(request):
-    with sqlite3.connect(Connection.db_path) as conn:
-        conn.row_factory = sqlite3.Row
-        db_cursor = conn.cursor()
+    if request.method == 'GET':
+        with sqlite3.connect(Connection.db_path) as conn:
+            conn.row_factory = model_factory(Library)
+            db_cursor = conn.cursor()
 
-        db_cursor.execute("""
-        select
-            l.id,
-            l.title,
-            l.address
-        from libraryapp_library l
-        """)
+            db_cursor.execute("""
+            select
+                l.id,
+                l.title,
+                l.address
+            from libraryapp_library l
+            """)
 
-        all_libraries = []
-        dataset = db_cursor.fetchall()
+            all_libraries = db_cursor.fetchall()
 
-        for row in dataset:
-            library = Library()
-            library.id = row["id"]
-            library.title = row["title"]
-            library.address = row["address"]
+            # dataset = db_cursor.fetchall()
 
-            all_libraries.append(library)
+            # for row in dataset:
+            #     library = Library()
+            #     library.id = row["id"]
+            #     library.title = row["title"]
+            #     library.address = row["address"]
 
-    template_name = 'libraries/list.html'
+            #     all_libraries.append(library)
 
-    context = {
-        'all_libraries': all_libraries
-    }
+        template = 'libraries/list.html'
+        context = {
+            'all_libraries': all_libraries
+        }
 
-    return render(request, template_name, context)
+        return render(request, template, context)
+    
+    elif request.method == 'POST':
+        form_data = request.POST
+        
+        with sqlite3.connect(Connection.db_path) as conn:
+            db_cursor = conn.cursor()
+            
+            db_cursor.execute("""
+            INSERT INTO libraryapp_library
+            (
+                title, address
+            )
+            VALUES (?, ?)
+            """,
+            (form_data['title'], form_data['address'])
+                )
+            
+        return redirect(reverse('libraryapp:libraries'))
+
+                              
+                              
+                              
+            
