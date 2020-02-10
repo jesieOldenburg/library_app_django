@@ -7,6 +7,7 @@ from .libraries.form import library_form
 from .libraries.details import library_details
 
 from .librarians.list import  list_librarians
+from .librarians.details import librarian_details
 
 from .home import home
 from .auth.logout import logout_user
